@@ -4,14 +4,15 @@ import com.company.dto.UserDTO;
 import com.company.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.company.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("user1")
+
 public class UserServiceImpl implements UserService {
 
-    UserRepository userRepository=new UserRepository();
 
-    final UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public UserServiceImpl(UserRepository userRepository) {
 
