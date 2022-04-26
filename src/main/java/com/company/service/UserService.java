@@ -5,5 +5,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface UserService {
-    UserDTO creatUser();
+    void creatUser(UserDTO user);
 }
