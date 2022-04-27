@@ -7,8 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
-@Service("user1")
-
+@Service
 public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;

@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper {
 
-    @Insert("Insert INTO ganira.users (name, surname , father_name, age, salary, cif)\n" + "VALUES (#{name}, #{surname} ,#{fatherName}, #{age} ,#{salary} ,#{cif})")
+    @Insert("Insert INTO users (id,name, surname , father_name, age, salary, cif)\n" + "VALUES (#{id},#{name}, #{surname} ,#{fatherName}, #{age} ,#{salary} ,#{cif})")
     void creatUser(UserDTO user);
 
 //    @Delete("DELETE FROM ganira.users WHERE id=#{id}")
