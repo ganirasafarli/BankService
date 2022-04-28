@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Data
-@Getter
 public class UserDTO {
 
     private Long id;
@@ -19,4 +18,6 @@ public class UserDTO {
     private int age;
     private double salary;
     private String cif;
+    private Double withdrawal;
+    private Double deposit;
 }

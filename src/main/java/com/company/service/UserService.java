@@ -6,4 +6,8 @@ import org.springframework.stereotype.Service;
 
 public interface UserService {
     void creatUser(UserDTO user);
+
+    void deleteUserByCif(String cif);
+
+    UserDTO getUserByCif(String cif);
 }

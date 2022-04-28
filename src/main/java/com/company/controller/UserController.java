@@ -21,5 +21,15 @@ public class UserController {
         userService.creatUser(user);
     }
 
+    @DeleteMapping("delete/{cif}")
+    public void delete(@PathVariable String cif) {
+        userService.deleteUserByCif(cif);
+    }
+
+    @GetMapping("user/{cif}")
+    public UserDTO get(@PathVariable String cif) {
+        System.out.println("okay");
+        return userService.getUserByCif(cif);
+    }
 
 }

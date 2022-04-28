@@ -3,10 +3,12 @@ package com.company.service.impl;
 import com.company.dto.UserDTO;
 import com.company.mapper.UserMapper;
 import com.company.service.UserService;
+import com.company.util.UserUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Random;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -16,18 +18,35 @@ public class UserServiceImpl implements UserService {
         this.userMapper = userMapper;
     }
 
-    Random random = new Random();
-
-    public String cifGenerator() {
-        int maximum = 9999999;
-        int minimum = 1000000;
-        return String.valueOf(random.nextInt(maximum - minimum + 1) + minimum);
-    }
+    UserUtil userUtil = new UserUtil();
 
     @Override
     public void creatUser(UserDTO user) {
-        user.setCif(cifGenerator());
-        userMapper.creatUser(user);
+        try {
+            user.setCif(userUtil.cifGenerator());
+            userMapper.creatUser(user);
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+        }
     }
 
+    @Override
+    public void deleteUserByCif(String cif) {
+        try {
+            userMapper.deleteUser(cif);
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+        }
+
+    }
+
+    @Override
+    public UserDTO getUserByCif(String cif) {
+        try {
+            return userMapper.getUser(cif);
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+        }
+        return null;
+    }
 }
