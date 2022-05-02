@@ -1,13 +1,17 @@
 package com.company.util;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Random;
 
+@Component
 public class UserUtil {
-    Random random = new Random();
+    static Random random = new Random();
 
-    public String cifGenerator() {
+    public static String cifGenerator() {
         int maximum = 9999999;
         int minimum = 1000000;
         return String.valueOf(random.nextInt(maximum - minimum + 1) + minimum);
     }
+
 }
