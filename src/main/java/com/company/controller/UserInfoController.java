@@ -8,14 +8,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("test/bank")
 @RequiredArgsConstructor
-public class UserController {
-
+public class UserInfoController {
 
     private final UserService userService;
 
     @PostMapping("registration")
-    public void creat(@RequestBody UserDTO user) {
-        userService.creatUser(user);
+    public void save(@RequestBody UserDTO user) {
+        userService.saveUser(user);
     }
 
     @DeleteMapping("{cif}")
@@ -25,13 +24,16 @@ public class UserController {
 
     @GetMapping("user/{cif}")
     public UserDTO get(@PathVariable String cif) {
-        return userService.getUserByCif(cif);
+        return userService.findUserByCif(cif);
     }
 
     @PostMapping("money/{money}/{cif}")
     public void addMoney(@PathVariable Double money, @PathVariable String cif) {
-        userService.addDepositByCif2(money, cif);
+        userService.addDepositByCif(money, cif);
     }
-
-
+//
+//    @PostMapping("money2/{money}/{cif}")
+//    public void withdrawMoney(@PathVariable Double money, @PathVariable String cif) {
+//        userService.withdrawMoneyByCif(money, cif);
+//}
 }

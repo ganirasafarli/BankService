@@ -10,8 +10,9 @@ public class UserDTO {
     private String surname;
     private String fatherName;
     private Integer age;
-    private double salary;
+    private Double salary;
     private String cif;
     private Double withdrawal;
     private Double deposit;
+
 }

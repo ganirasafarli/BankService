@@ -1,37 +1,37 @@
 package com.company.service.impl;
 
 import com.company.dto.UserDTO;
-import com.company.mapper.UserMapper;
-import com.company.mapper.UserMapper2;
+import com.company.entity.UserInfo;
+import com.company.repository.UserRepository;
 import com.company.service.UserService;
 import com.company.util.UserUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 @Slf4j
 @Service
-
+@Transactional
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-
-    private final UserMapper userMapper;
-    private final UserMapper2 userMapper2;
-    private final UserUtil userUtil;
+    private final UserRepository userRepository;
 
 
-    public UserServiceImpl(UserMapper userMapper, UserMapper2 userMapper2, UserUtil userUtil) {
-        this.userMapper = userMapper;
-        this.userMapper2 = userMapper2;
-        this.userUtil = userUtil;
-    }
+    ModelMapper modelMapper = new ModelMapper();
+
 
 
     @Override
-    public void creatUser(UserDTO user) {
-        log.info("User created :" + user);
+    public void saveUser(UserDTO userDTO) {
+        log.info("User added: {}", userDTO);
         try {
-            user.setCif(userUtil.cifGenerator());
-            userMapper.creatUser(user);
+            userDTO.setCif(UserUtil.cifGenerator());
+            UserInfo user = modelMapper.map(userDTO, UserInfo.class);
+            userRepository.save(user);
         } catch (Exception ex) {
             ex.printStackTrace();
             log.error(ex.getMessage());
@@ -41,20 +41,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUserByCif(String cif) {
-        log.info("the deletion of user by cif: +" + cif);
+        log.info("the deletion of user by cif: {}", cif);
         try {
-            userMapper.deleteUser(cif);
+            userRepository.deleteUserByCif(cif);
         } catch (Exception ex) {
             ex.printStackTrace();
             log.error(ex.getMessage());
         }
     }
 
+    //
     @Override
-    public UserDTO getUserByCif(String cif) {
-        log.info("get user by cif:" + cif);
+    public UserDTO findUserByCif(String cif) {
+        log.info("find user by cif {}", cif);
         try {
-            return userMapper.getUser(cif);
+            UserInfo userInfo = userRepository.findUserByCif(cif);
+            UserDTO userDTO = modelMapper.map(userInfo, UserDTO.class);
+            return userDTO;
         } catch (Exception ex) {
             ex.printStackTrace();
             log.error(ex.getMessage());
@@ -65,16 +68,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addDepositByCif(Double money, String cif) {
         log.info("add deposit process money:" + money + " and cif:" + cif);
-        Double deposit = userMapper.getDepositByCif(cif);
-        userMapper.updateDeposit(deposit + money, cif);
+        Double currentDeposit = userRepository.findDepositByCif(cif);
+        userRepository.updateDeposit(currentDeposit + money, cif);
     }
+
+
+//    @Override
+//    public void addDepositByCif2(Double money, String cif) {
+//        log.info("add deposit process money:" + money + " and cif:" + cif);
+//        Long id = userRepository2.findIdByCif(cif);
+//        Double lastDeposit = userRepository2.findDepositById(id);
+//        userRepository2.updateDepositById(id, money + lastDeposit);
+//    }
 
 
     @Override
-    public void addDepositByCif2(Double money, String cif) {
-        log.info("add deposit process money:" + money + " and cif:" + cif);
-        Long id = userMapper2.getIdByCif(cif);
-        userMapper2.updateDepositById(id, money + userMapper2.getDepositById(id));
+    public void withdrawMoneyByCif(Double money, String cif) {
+        log.info("Withdrawal");
+        Double currentWithdrawal = userRepository.findWithdrawalByCif(cif);
+        userRepository.updateWithdrawal(currentWithdrawal + money, cif);
     }
-
 }
