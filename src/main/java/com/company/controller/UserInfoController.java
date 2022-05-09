@@ -1,8 +1,10 @@
 package com.company.controller;
 
 import com.company.dto.UserDTO;
+import com.company.exception.MyException;
 import com.company.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -23,15 +25,15 @@ public class UserInfoController {
     }
 
     @GetMapping("user/{cif}")
-    public UserDTO get(@PathVariable String cif) {
-        return userService.findUserByCif(cif);
+    public ResponseEntity<UserDTO> get(@PathVariable String cif) throws RuntimeException {
+        return ResponseEntity.ok(userService.findUserByCif(cif));
     }
 
-    @PostMapping("money/{money}/{cif}")
-    public void addMoney(@PathVariable Double money, @PathVariable String cif) {
-        userService.addDepositByCif(money, cif);
-    }
-//
+//    @PostMapping("money")
+//    public void addMoney(@RequestParam Double money, @RequestParam String cif) {
+//        userService.addDepositByCif(money, cif);
+//    }
+
 //    @PostMapping("money2/{money}/{cif}")
 //    public void withdrawMoney(@PathVariable Double money, @PathVariable String cif) {
 //        userService.withdrawMoneyByCif(money, cif);

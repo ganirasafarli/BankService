@@ -17,8 +17,8 @@ public class UserTransaction {
 
     private Double withdrawal;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id", referencedColumnName = "users_info_id")
-    private UserInfo users_info_id;
+//    @OneToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "id", referencedColumnName = "users_info_id")
+//    private UserInfo users_info_id;
 
 }
